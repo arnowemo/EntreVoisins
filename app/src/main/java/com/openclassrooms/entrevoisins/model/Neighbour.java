@@ -26,6 +26,8 @@ public class Neighbour {
     private String aboutMe;
 
     /**
+
+    /**
      * Constructor
      * @param id
      * @param name
