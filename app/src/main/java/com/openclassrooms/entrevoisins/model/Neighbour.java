@@ -7,6 +7,7 @@ import java.util.Objects;
  */
 public class Neighbour {
 
+    public static boolean liked;
     /** Identifier */
     private long id;
 

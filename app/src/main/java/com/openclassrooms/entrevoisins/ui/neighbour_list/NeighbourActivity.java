@@ -1,8 +1,11 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
+
+
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,12 +16,14 @@ import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
-import static android.media.CamcorderProfile.get;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NeighbourActivity extends AppCompatActivity {
 
-    int position;
-    Neighbour neighbour;
+    Neighbour currentNeighbour;
+
+
 
     private ImageButton mBackButton;
     private ImageView mAvatarNeighbour;
@@ -35,6 +40,9 @@ public class NeighbourActivity extends AppCompatActivity {
 
     private TextView mAboutMeNeighbour;
 
+    // favoris
+
+    private FloatingActionButton mAddFavoriteNeighbour;
 
 
 
@@ -54,9 +62,10 @@ public class NeighbourActivity extends AppCompatActivity {
         mAddressNeighbour = findViewById(R.id.address_neighbour);
         mPhoneNeighbour = findViewById(R.id.phone_neighbour);
         mAboutMeNeighbour = findViewById(R.id.about_me_neighbour);
+        mAddFavoriteNeighbour = findViewById(R.id.add_favorite);
 
 
-
+        // actualisation des informations du voisin selectioné
         String NeighbourAvatarName = getIntent().getStringExtra("NameNeighbour");
         mNameAvatarNeighbour.setText(NeighbourAvatarName);
         String NeighbourName = getIntent().getStringExtra("NameNeighbour");
@@ -70,7 +79,8 @@ public class NeighbourActivity extends AppCompatActivity {
 
 
 
-        //
+        // actualisation de la photo "avatar" du voisin
+
         String NeighbourAvatar = getIntent().getStringExtra("AvatarNeighbour");
         Glide.with(this)
                 .load(NeighbourAvatar)
@@ -79,9 +89,41 @@ public class NeighbourActivity extends AppCompatActivity {
 
 
         backActivity();
+        favorites();
+
+    }
+
+    // methode pour changer l'image de du bouton favoris
+    private void updateStar(FloatingActionButton addFavoriteNeighbour){
+
+        if (currentNeighbour.liked) {
+            addFavoriteNeighbour.setImageResource(R.drawable.ic_star_white_24dp);
+        }
+        else{
+            addFavoriteNeighbour.setImageResource(R.drawable.ic_star_border_white_24dp);
+        }
     }
 
 
+
+    // methode pour recuprer le click sur le bouton favoris
+    private void favorites() {
+
+    updateStar(mAddFavoriteNeighbour);
+
+        mAddFavoriteNeighbour.setOnClickListener(new FloatingActionButton.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentNeighbour.liked = !currentNeighbour.liked;
+                updateStar(mAddFavoriteNeighbour);
+
+
+
+            }
+        });
+
+    }
 
 
     //méthode  pour revenir a l'activivité précedente en appuyant sur la fléche retour
@@ -94,6 +136,7 @@ public class NeighbourActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 }

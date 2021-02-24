@@ -96,6 +96,10 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
     @Override
     public void neighbourClick(int position) {
         Intent neighbourActivity = new Intent (getActivity(), NeighbourActivity.class);
+
+        // recuperation et transfert des infomations du voisin selectioné
+
+        neighbourActivity.putExtra("IdNeighbour", mNeighbours.get(position).getId());
         neighbourActivity.putExtra("NameNeighbour", mNeighbours.get(position).getName());
         neighbourActivity.putExtra("AvatarNeighbour", mNeighbours.get(position).getAvatarUrl());
         neighbourActivity.putExtra("AddressNeighbour", mNeighbours.get(position).getAddress());
