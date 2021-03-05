@@ -7,7 +7,6 @@ import java.util.Objects;
  */
 public class Neighbour {
 
-    public static boolean liked;
     /** Identifier */
     private long id;
 
@@ -26,6 +25,9 @@ public class Neighbour {
     /** About me */
     private String aboutMe;
 
+
+
+
     /**
 
     /**
@@ -43,6 +45,7 @@ public class Neighbour {
         this.phoneNumber = phoneNumber;
         this.aboutMe = aboutMe;
     }
+
 
     public long getId() {
         return id;
@@ -88,9 +91,9 @@ public class Neighbour {
         return aboutMe;
     }
 
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
-    }
+    public void setAboutMe(String aboutMe) {this.aboutMe = aboutMe;}
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -105,3 +108,5 @@ public class Neighbour {
         return Objects.hash(id);
     }
 }
+
+
