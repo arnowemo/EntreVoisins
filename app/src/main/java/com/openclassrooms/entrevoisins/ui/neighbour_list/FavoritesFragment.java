@@ -1,10 +1,13 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,24 +17,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.data.FavoritesPref;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 
-public class FavoritesFragment extends Fragment {
+
+public class FavoritesFragment extends Fragment implements FavoritesAdapter.NeighbourListener {
 
     private NeighbourApiService mApiService;
-    private Neighbour mNeighbour;
     private RecyclerView mRecyclerView;
-    private List<Neighbour >mNeighboursFavoritesList = new ArrayList<>();
-    private ArrayList<Integer> myFavListId;
+    private List<Neighbour> mNeighbours;
+    private List<Neighbour> mNeighboursFav;
+
 
 
 
@@ -48,7 +51,7 @@ public class FavoritesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mApiService = DI.getNeighbourApiService();
-        myFavListId = FavoritesPref.readListFav(getActivity());
+
 
 
     }
@@ -62,7 +65,6 @@ public class FavoritesFragment extends Fragment {
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        mRecyclerView.setAdapter(new FavoritesAdapter(mNeighboursFavoritesList));
 
         return view;
     }
@@ -70,22 +72,16 @@ public class FavoritesFragment extends Fragment {
     /**
      * Init the List of neighbours
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initList() {
 
-            // si ma liste id est differente de null alors j'ajoute un voisin a la litse Favoris
-            if(myFavListId != null) {
-
-                for (int i = 0; i < myFavListId.size(); i++) {
-
-                    int id = myFavListId.get(i);
-                    mNeighbour = mApiService.getNeighbours().get(id);
-                    mNeighboursFavoritesList.add(mNeighbour);
-                }
-
-            }
+        mNeighbours =  mApiService.getNeighbours();
+        mNeighboursFav = mNeighbours.stream().filter(Neighbour::isFavorite).collect(toList());
+        mRecyclerView.setAdapter(new FavoritesAdapter(mNeighboursFav, this));
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
@@ -103,6 +99,16 @@ public class FavoritesFragment extends Fragment {
         super.onStop();
     }
 
+    @Override
+    public void neighbourClick(int position) {
+        Intent neighbourActivity = new Intent (getActivity(), NeighbourActivity.class);
 
+        // recuperations des infomations du voisin selectioné
+
+        neighbourActivity.putExtra("ObjNeighbour",mNeighboursFav.get(position));
+
+
+        startActivity(neighbourActivity);
     }
+}
 

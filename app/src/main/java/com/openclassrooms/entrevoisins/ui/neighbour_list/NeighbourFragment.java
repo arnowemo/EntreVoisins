@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
@@ -96,8 +95,11 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
     @Override
     public void neighbourClick(int position) {
         Intent neighbourActivity = new Intent (getActivity(), NeighbourActivity.class);
+        neighbourActivity.putExtra("ObjNeighbour",mNeighbours.get(position));
 
         // recuperations des infomations du voisin selectioné
+ /**
+
 
         neighbourActivity.putExtra("IdNeighbour", mNeighbours.get(position).getId());
         neighbourActivity.putExtra("NameNeighbour", mNeighbours.get(position).getName());
@@ -106,6 +108,7 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
         neighbourActivity.putExtra("AboutMeNeighbour", mNeighbours.get(position).getAboutMe());
         neighbourActivity.putExtra("AvatarNeighbour", mNeighbours.get(position).getAvatarUrl());
         neighbourActivity.putExtra("PhoneNeighbour", mNeighbours.get(position).getPhoneNumber());
+  */
 
         startActivity(neighbourActivity);
     }

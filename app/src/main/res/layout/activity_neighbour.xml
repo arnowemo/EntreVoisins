@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/neighbour_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DFDCDCDC"
@@ -183,8 +184,8 @@
 
       <TextView
           android:id="@+id/about_me_neighbour"
-          android:layout_width="349dp"
-          android:layout_height="69dp"
+          android:layout_width="354dp"
+          android:layout_height="85dp"
           android:text="text"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"

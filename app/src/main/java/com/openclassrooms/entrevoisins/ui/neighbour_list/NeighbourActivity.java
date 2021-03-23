@@ -1,7 +1,6 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,17 +14,21 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.data.FavoritesPref;
+import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class NeighbourActivity extends AppCompatActivity {
 
     private String mNeighbourName;
-    private boolean liked = false;
-    private ArrayList<Integer> neighbourFavListId = new ArrayList<>();
-    private int neighbourId;
-    private int realId = neighbourId - 1;
+    private int mNeighbourId;
+    private int realId;
+    private Neighbour mNeighbour;
+    private NeighbourApiService mNeighbourApiService;
+    private List<Neighbour> mNeighbours;
+
 
 
     private ImageButton mBackButton;
@@ -52,9 +55,12 @@ public class NeighbourActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neighbour);
+        mNeighbourApiService = DI.getNeighbourApiService();
 
-        // remplissage de liste avec les données sauvegardé dans les Sharedpreferences
-        neighbourFavListId = FavoritesPref.readListFav(getApplicationContext());
+
+        Intent intent = getIntent();
+        mNeighbour = intent.getParcelableExtra("ObjNeighbour");
+
 
         // recuperation des elements du layout
         mBackButton = findViewById(R.id.backButton);
@@ -66,90 +72,66 @@ public class NeighbourActivity extends AppCompatActivity {
         mAboutMeNeighbour = findViewById(R.id.about_me_neighbour);
         mAddFavoriteNeighbour = findViewById(R.id.add_favorite);
 
-
-        // actualisation des informations du voisin sélectionné
-        String NeighbourAvatarName = getIntent().getStringExtra("NameNeighbour");
-        mNameAvatarNeighbour.setText(NeighbourAvatarName);
-        mNeighbourName = getIntent().getStringExtra("NameNeighbour");
+        mNeighbourName = mNeighbour.getName();
         mNameNeighbour.setText(mNeighbourName);
-        String NeighbourAddress = getIntent().getStringExtra("AddressNeighbour");
-        mAddressNeighbour.setText(NeighbourAddress);
-        String NeighbourPhone = getIntent().getStringExtra("PhoneNeighbour");
+        mNameAvatarNeighbour.setText(mNeighbourName);
+        String NeighbourAddress = mNeighbour.getAddress();
+        mAddressNeighbour.setText(NeighbourAddress.replace(";", "à"));
+        String NeighbourPhone = mNeighbour.getPhoneNumber();
         mPhoneNeighbour.setText(NeighbourPhone);
-        String NeighbourAboutMe = getIntent().getStringExtra("AboutMeNeighbour");
+        String NeighbourAboutMe = mNeighbour.getAboutMe();
         mAboutMeNeighbour.setText(NeighbourAboutMe);
 
-        // ID voisin actuel
-        neighbourId  = (int) getIntent().getLongExtra("IdNeighbour",0);
+        mNeighbourId = (int) mNeighbour.getId();
+        realId = mNeighbourId - 1;
+        mNeighbours = mNeighbourApiService.getNeighbours();
+        mNeighbour = mNeighbours.get(realId);
 
-        // actualisation de la photo "avatar" du voisin
-        String NeighbourAvatar = getIntent().getStringExtra("AvatarNeighbour");
+
+        String NeighbourAvatar = mNeighbour.getAvatarUrl();
+
         Glide.with(this)
                 .load(NeighbourAvatar)
                 .centerCrop()
                 .into(mAvatarNeighbour);
 
 
-        if(neighbourFavListId != null){
 
-            setupStar();
-        }
 
+        setupStar();
         backActivity();
         favorites();
     }
 
 
-
-
-
-
-    // méthode pour récupérer le click sur le bouton favoris et pour ajouter l'ID dans les Share
+    // méthode qui recupére le click sur le bouton favoris et modifie la valeur du
     private void favorites() {
-
         mAddFavoriteNeighbour.setOnClickListener(new FloatingActionButton.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                liked = !liked;
-                updateStar(mAddFavoriteNeighbour);
-                 realId = neighbourId -1;
+                mNeighbour.favorite = ! mNeighbour.favorite;
 
-                if(liked){
-                    if(neighbourFavListId != null) {
-                        neighbourFavListId = new ArrayList<>(FavoritesPref.readListFav(getApplicationContext()));
-                    }else{
-                        neighbourFavListId = new ArrayList<>();
-                    }
-                    neighbourFavListId.add(realId);
-                    FavoritesPref.writeFavList(getApplicationContext(), neighbourFavListId);
+                if(mNeighbour.isFavorite()){
+
+                    mNeighbour.setFavorite(true);
                     Toast.makeText(getApplicationContext(), mNeighbourName +  " Added to favorites", Toast.LENGTH_SHORT).show();
 
-                }
-                else{
-                    for (int i = 0; i < neighbourFavListId.size(); i++) {
-                         int supId = neighbourFavListId.get(i);
-                        if (supId == realId) {
-
-                            neighbourFavListId.remove(neighbourFavListId.get(i));
-                        }
-
+                } else
+                    { mNeighbour.setFavorite(false);
+                        Toast.makeText(getApplicationContext(), mNeighbourName + " Removed from favorites", Toast.LENGTH_SHORT).show();
                     }
-                    //neighbourFavListId.remove(realId);
-                    FavoritesPref.writeFavList(getApplicationContext(),neighbourFavListId);
-                    Toast.makeText(getApplicationContext(), mNeighbourName + " Removed from favorites", Toast.LENGTH_SHORT).show();
-                }
+
+                updateStar(mAddFavoriteNeighbour);
             }
         });
 
     }
 
-
-
     // méthode pour changer l'image de du bouton favoris
     private void updateStar(FloatingActionButton addFavoriteNeighbour){
 
-        if (liked) {
+        if (mNeighbour.isFavorite()) {
             addFavoriteNeighbour.setImageResource(R.drawable.ic_star_white_24dp);
         }
         else{
@@ -159,17 +141,9 @@ public class NeighbourActivity extends AppCompatActivity {
 
 
 
-    //Setup l'etoile fav avec la bonne valeur
+    //Setup l'etoile du bouton Favoris avec la bonne valeur
     private void setupStar (){
-        realId = neighbourId - 1;
 
-        for(int i=0;i<neighbourFavListId.size();i++)
-        {
-            if( realId  == neighbourFavListId.get(i))
-            {
-                liked = true;
-            }
-        }
         updateStar(mAddFavoriteNeighbour);
     }
 
@@ -185,5 +159,4 @@ public class NeighbourActivity extends AppCompatActivity {
             }
         });
     }
-
 }

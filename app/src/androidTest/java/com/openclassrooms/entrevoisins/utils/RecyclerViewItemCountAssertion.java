@@ -34,4 +34,5 @@ public class RecyclerViewItemCountAssertion implements ViewAssertion {
             RecyclerView.Adapter adapter = recyclerView.getAdapter();
             Assert.assertThat(adapter.getItemCount(), matcher);
         }
-    }
+
+}
