@@ -78,7 +78,7 @@ public class FavoritesTest {
         //click sur l'onglet Favoris
         onView(withContentDescription(R.string.tab_favorites_title)).perform(click());
 
-        // verification que la vue favrois contient 2 items
+        // verification que la vue favoris contient 2 items
         onView(ViewMatchers.withId(R.id.list_fav_neighbours))
                 .check(withItemCount(2));
 

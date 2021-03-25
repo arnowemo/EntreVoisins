@@ -82,8 +82,9 @@ public class NeighboursListTest {
     @Test
     public void test_OpenNeighbourActivity(){
 
-
+        // click sur le voisin en posoition 0
         onView(withId(R.id.list_neighbours)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+        // la nouvelle vue affiche bien neighbour_activity
         onView(withId(R.id.neighbour_activity)).check(matches(isDisplayed()));
     }
 
@@ -94,8 +95,9 @@ public class NeighboursListTest {
 
     @Test
     public void test_TextView_NameNeighbour_IsCorrectlyFilled(){
-
+        // click sur le voisin en posoition 0
         onView(withId(R.id.list_neighbours)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+        // verification que le nom affiché correspond bien au voisin secletionné
         onView(withId(R.id.name_neighbour)).check(matches(withText("Caroline")));
 
 

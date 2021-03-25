@@ -76,6 +76,7 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Neig
     private void initList() {
 
         mNeighbours =  mApiService.getNeighbours();
+        // on filtre les voisins marqué comme "Favoris" pour n'affciher qu'eux
         mNeighboursFav = mNeighbours.stream().filter(Neighbour::isFavorite).collect(toList());
         mRecyclerView.setAdapter(new FavoritesAdapter(mNeighboursFav, this));
     }
@@ -103,7 +104,6 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Neig
     public void neighbourClick(int position) {
         Intent neighbourActivity = new Intent (getActivity(), NeighbourActivity.class);
 
-        // recuperations des infomations du voisin selectioné
 
         neighbourActivity.putExtra("ObjNeighbour",mNeighboursFav.get(position));
 

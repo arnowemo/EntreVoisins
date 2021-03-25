@@ -45,7 +45,7 @@ public class NeighbourActivity extends AppCompatActivity {
 
     private TextView mAboutMeNeighbour;
 
-    // favoris
+    // Bouton favoris
 
     private FloatingActionButton mAddFavoriteNeighbour;
 
@@ -57,7 +57,7 @@ public class NeighbourActivity extends AppCompatActivity {
         setContentView(R.layout.activity_neighbour);
         mNeighbourApiService = DI.getNeighbourApiService();
 
-
+        // recuperation de l'objet Neighbour
         Intent intent = getIntent();
         mNeighbour = intent.getParcelableExtra("ObjNeighbour");
 
@@ -104,7 +104,7 @@ public class NeighbourActivity extends AppCompatActivity {
     }
 
 
-    // méthode qui recupére le click sur le bouton favoris et modifie la valeur du
+    // méthode qui recupére le click sur le bouton favoris et modifie la valeur "Favorite" du model Neighbour
     private void favorites() {
         mAddFavoriteNeighbour.setOnClickListener(new FloatingActionButton.OnClickListener() {
 
