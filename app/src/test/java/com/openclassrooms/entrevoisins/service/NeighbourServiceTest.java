@@ -2,7 +2,6 @@ package com.openclassrooms.entrevoisins.service;
 
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.AddNeighbourActivity;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
@@ -11,10 +10,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -52,26 +49,19 @@ public class NeighbourServiceTest {
 
     @Test
     public void addNewNeighbour(){
-        // recuperation de la liste des voisins
-        List<Neighbour> neighbours = service.getNeighbours();
-        // verification que la taille correspond bien a 12;
-        assertEquals(12,neighbours.size());
         // creation d'un nouveau voisin
         Neighbour newNeighbour = new Neighbour(13,"Pierre","https://i.pravatar.cc/150?u=a042581f4e29026704d", "Saint-Pierre-du-Mont ; 5km",
                 "+33 6 86 57 90 14",  "Bonjour !Je souhaiterais faire de la marche nordique. Pas initiée, je recherche une ou plusieurs personnes susceptibles de m'accompagner !J'aime les jeux de cartes tels la belote et le tarot..",false);
         // ajout du voisin a la liste
-        neighbours.add(newNeighbour);
-        // verification que la taille correspond bien a 13;
-        assertEquals(13,neighbours.size());
-
-
-
+        service.createNeighbour(newNeighbour);
+        // verification que la liste des voisins contient le nouveau voisin ;
+        assertTrue(service.getNeighbours().contains(newNeighbour));
 
     }
 
 
     @Test
-    public void addAndRemoveFavoriteNeighbour (){
+    public void addFavoriteNeighbour (){
         // recuperation de la liste des voisins
         List<Neighbour> neighbours = service.getNeighbours();
         // recuperation du voisin qu'on souhaite ajouter en favoris
@@ -81,19 +71,27 @@ public class NeighbourServiceTest {
         List<Neighbour> neighboursFavorite = neighbours.stream().filter(Neighbour::isFavorite).collect(toList());
         // verification que la taille correspond bien a 1;
         assertEquals(1,neighboursFavorite.size());
-        // on verirfie que le voisin est bien marqué en favoris
+        // on verifie que le voisin present dans la liste est bien marqué en favoris
         assertTrue(neighbours.stream().map(Neighbour::isFavorite).collect(Collectors.toList()).contains(neighbourFavorite.isFavorite()));
-        // on retire le voisin des favoris
-        neighbourFavorite.setFavorite(false);
-        // recuperation de la liste des voisins Favoris
-        neighboursFavorite = neighbours.stream().filter(Neighbour::isFavorite).collect(toList());
-        // verification que la taille correspond bien a 0;
-        assertEquals(0,neighboursFavorite.size());
-
 
 
     }
 
+    @Test
+    public void removeFavoriteNeighbour (){
+        // recuperation de la liste des voisins
+        List<Neighbour> neighbours = service.getNeighbours();
+        // recuperation du voisin qu'on souhaite ajouter en favoris
+        Neighbour neighbourFavorite = service.getNeighbours().get(0);
+        neighbourFavorite.setFavorite(true);
+        // Suppression du voisin des Favoris
+        neighbourFavorite.setFavorite(false);
+        // recuperation de la liste des voisins Favoris
+        List<Neighbour> neighboursFavorite = neighbours.stream().filter(Neighbour::isFavorite).collect(toList());
+        // verification que la taille correspond bien a 0;
+        assertEquals(0,neighboursFavorite.size());
+
+    }
 
 
 

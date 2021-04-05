@@ -24,7 +24,7 @@ public class NeighbourActivity extends AppCompatActivity {
 
     private String mNeighbourName;
     private int mNeighbourId;
-    private int realId;
+    private int mRealId;
     private Neighbour mNeighbour;
     private NeighbourApiService mNeighbourApiService;
     private List<Neighbour> mNeighbours;
@@ -83,9 +83,9 @@ public class NeighbourActivity extends AppCompatActivity {
         mAboutMeNeighbour.setText(NeighbourAboutMe);
 
         mNeighbourId = (int) mNeighbour.getId();
-        realId = mNeighbourId - 1;
+        mRealId = mNeighbourId - 1;
         mNeighbours = mNeighbourApiService.getNeighbours();
-        mNeighbour = mNeighbours.get(realId);
+        mNeighbour = mNeighbours.get(mRealId);
 
 
         String NeighbourAvatar = mNeighbour.getAvatarUrl();

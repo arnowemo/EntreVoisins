@@ -141,7 +141,7 @@
 
   <android.support.v7.widget.CardView
       android:layout_width="378dp"
-      android:layout_height="160dp"
+      android:layout_height="140dp"
       android:layout_marginTop="8dp"
       app:cardCornerRadius="5dp"
       app:cardElevation="2dp"
@@ -150,7 +150,7 @@
       app:layout_constraintHorizontal_bias="0.484"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/avatarNeighbour"
-      app:layout_constraintVertical_bias="0.97">
+      app:layout_constraintVertical_bias="0.88">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
