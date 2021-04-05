@@ -18,5 +18,5 @@ Installation en Zip :
 - Pour compiler le projet ==> cliquer le marteau vert "Make project".
 - Pour executer le projet ==> cliquer sur le bouton "Run" (triangle vert).
 
-En cas de difficulité ce reporter à la documentation d'Android studio : [Build and run your app
+En cas de difficulté ce reporter à la documentation d'Android studio : [Build and run your app
 ](https://developer.android.com/studio/run).
