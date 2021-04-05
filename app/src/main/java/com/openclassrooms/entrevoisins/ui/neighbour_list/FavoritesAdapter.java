@@ -1,6 +1,5 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -58,11 +57,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         @BindView(R.id.item_fav_list_name)
         public TextView mNeighbourName;
 
-
-
       NeighbourListener neighbourListener;
-
-
 
         public ViewHolder(@NonNull View itemView, NeighbourListener neighbourListener) {
             super(itemView);

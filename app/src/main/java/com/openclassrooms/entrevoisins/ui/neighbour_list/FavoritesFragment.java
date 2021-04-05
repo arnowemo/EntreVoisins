@@ -33,8 +33,6 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Neig
     private List<Neighbour> mNeighboursFav;
 
 
-
-
     /**
      * Create and return a new instance
      * @return @{@link FavoritesFragment}
@@ -48,8 +46,6 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Neig
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mApiService = DI.getNeighbourApiService();
-
-
 
     }
 

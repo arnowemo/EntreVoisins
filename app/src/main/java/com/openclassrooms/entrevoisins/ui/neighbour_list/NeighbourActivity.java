@@ -96,8 +96,6 @@ public class NeighbourActivity extends AppCompatActivity {
                 .into(mAvatarNeighbour);
 
 
-
-
         setupStar();
         favorites();
         backActivity();
@@ -147,7 +145,6 @@ public class NeighbourActivity extends AppCompatActivity {
 
         updateStar(mAddFavoriteNeighbour);
     }
-
 
 
     //méthode  pour revenir a l'activivité précedente en appuyant sur la fléche retour

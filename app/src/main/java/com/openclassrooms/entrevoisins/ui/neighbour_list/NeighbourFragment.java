@@ -97,19 +97,6 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
         Intent neighbourActivity = new Intent (getActivity(), NeighbourActivity.class);
         neighbourActivity.putExtra("ObjNeighbour",mNeighbours.get(position));
 
-        // recuperations des infomations du voisin selectioné
- /**
-
-
-        neighbourActivity.putExtra("IdNeighbour", mNeighbours.get(position).getId());
-        neighbourActivity.putExtra("NameNeighbour", mNeighbours.get(position).getName());
-        neighbourActivity.putExtra("AvatarNeighbour", mNeighbours.get(position).getAvatarUrl());
-        neighbourActivity.putExtra("AddressNeighbour", mNeighbours.get(position).getAddress());
-        neighbourActivity.putExtra("AboutMeNeighbour", mNeighbours.get(position).getAboutMe());
-        neighbourActivity.putExtra("AvatarNeighbour", mNeighbours.get(position).getAvatarUrl());
-        neighbourActivity.putExtra("PhoneNeighbour", mNeighbours.get(position).getPhoneNumber());
-  */
-
         startActivity(neighbourActivity);
     }
 }

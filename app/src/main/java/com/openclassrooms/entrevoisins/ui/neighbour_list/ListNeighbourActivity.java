@@ -24,10 +24,6 @@ public class ListNeighbourActivity extends AppCompatActivity {
     @BindView(R.id.container)
     ViewPager mViewPager;
 
-
-
-
-
     ListNeighbourPagerAdapter mPagerAdapter;
 
     @Override
@@ -57,8 +53,6 @@ public class ListNeighbourActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
 
