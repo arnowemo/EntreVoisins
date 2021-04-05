@@ -2,11 +2,9 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
+
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -22,7 +20,6 @@ import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -76,7 +73,7 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Neig
     private void initList() {
 
         mNeighbours =  mApiService.getNeighbours();
-        // on filtre les voisins marqué comme "Favoris" pour n'affciher qu'eux
+        // filtre les voisins marqué comme "Favoris" pour n'affciher qu'eux
         mNeighboursFav = mNeighbours.stream().filter(Neighbour::isFavorite).collect(toList());
         mRecyclerView.setAdapter(new FavoritesAdapter(mNeighboursFav, this));
     }

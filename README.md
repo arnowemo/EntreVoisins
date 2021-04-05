@@ -1,6 +1,6 @@
 # ENTREVOISINS
 
-# About
+# Présentation 
 
 L'application ENTREVOISINS permet à des personnes d’un même quartier de se rendre des petits services.
 
@@ -14,9 +14,9 @@ Installation en Zip :
 
 - Dézipper le fichier préalablement téléchargé.
 - Ourvir Android studio.
-- Cliquer sur "open an existing project" et selectionner le le fichier de l'application Entrevoisins.
+- Cliquer sur "open an existing project" et selectionner le fichier de l'application Entrevoisins.
 - Pour compiler le projet ==> cliquer le marteau vert "Make project".
 - Pour executer le projet ==> cliquer sur le bouton "Run" (triangle vert).
 
-En cas de difficulité ce reporté a la documentation d'Android studio : [Build and run your app
+En cas de difficulité ce reporter a la documentation d'Android studio : [Build and run your app
 ](https://developer.android.com/studio/run).

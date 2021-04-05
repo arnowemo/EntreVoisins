@@ -1,16 +1,13 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.TabItem;
+
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.openclassrooms.entrevoisins.R;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +36,6 @@ public class ListNeighbourActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_neighbour);
         ButterKnife.bind(this);
 
-        // remise a zero des preferences
-        //PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().clear().apply();
-
 
         setSupportActionBar(mToolbar);
         mPagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager(),mTabLayout.getTabCount() );
@@ -63,7 +57,6 @@ public class ListNeighbourActivity extends AppCompatActivity {
 
             }
         });
-
 
 
     }

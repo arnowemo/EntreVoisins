@@ -99,8 +99,9 @@ public class NeighbourActivity extends AppCompatActivity {
 
 
         setupStar();
-        backActivity();
         favorites();
+        backActivity();
+
     }
 
 
