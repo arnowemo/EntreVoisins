@@ -23,15 +23,9 @@ import java.util.List;
 
 public class NeighbourActivity extends AppCompatActivity {
     private String mNeighbourName;
-    //private int mNeighbourId;
-    //private int mRealId;
     private Neighbour mNeighbour;
-    //private Neighbour mNeighbourActual;
     private NeighbourApiService mNeighbourApiService;
-    //private List<Neighbour> mNeighbours;
     private boolean mFavorite;
-
-
 
 
     private ImageButton mBackButton;
@@ -64,9 +58,6 @@ public class NeighbourActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mNeighbour = intent.getParcelableExtra("ObjNeighbour");
         mFavorite = intent.getBooleanExtra("favorite",false);
-
-
-
 
 
         // recuperation des elements du layout
@@ -115,25 +106,15 @@ public class NeighbourActivity extends AppCompatActivity {
                 mFavorite = ! mFavorite;
 
                 if(mFavorite){
-                    //mNeighbourApiService.addFavorite(mNeighbour);
-                    //mNeighbour = mNeighbours.get((int) mNeighbour.getId() - 1);
-                    // mNeighbour.setFavorite(true);
                     mNeighbour = DummyNeighbourGenerator.DUMMY_NEIGHBOURS.get((int) mNeighbour.getId() - 1);
                     mNeighbourApiService.addFavorite(mNeighbour);
-
-                    //mNeighbour.setFavorite(true);
                     Toast.makeText(getApplicationContext(), mNeighbourName +  " Added to favorites", Toast.LENGTH_SHORT).show();
 
 
                 } else
                 {
-                    //mNeighbourApiService.removeFavorite(mNeighbour);
-                    //mNeighbour = mNeighbours.get(mNeighbourId);
-                    //mNeighbour.setFavorite(false);
                     mNeighbour = DummyNeighbourGenerator.DUMMY_NEIGHBOURS.get((int) mNeighbour.getId() - 1);
                     mNeighbourApiService.removeFavorite(mNeighbour);
-
-                    //mNeighbour.setFavorite(false);
                     Toast.makeText(getApplicationContext(), mNeighbourName + " Removed from favorites", Toast.LENGTH_SHORT).show();
 
                 }

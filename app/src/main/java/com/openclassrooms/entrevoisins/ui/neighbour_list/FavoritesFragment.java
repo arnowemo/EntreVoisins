@@ -20,7 +20,6 @@ import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -78,7 +77,6 @@ public class FavoritesFragment extends Fragment implements MyNeighbourRecyclerVi
         mNeighboursFav = mNeighbours.stream().filter(Neighbour::isFavorite).collect(toList());
         mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighboursFav, this));
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override

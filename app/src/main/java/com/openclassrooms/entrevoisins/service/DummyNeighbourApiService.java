@@ -41,13 +41,11 @@ public class DummyNeighbourApiService implements  NeighbourApiService {
     public void addFavorite(Neighbour neighbour) {
         neighbour.setFavorite(true);
 
-
     }
 
     @Override
     public void removeFavorite(Neighbour neighbour) {
         neighbour.setFavorite(false);
-
 
     }
 }
