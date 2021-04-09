@@ -66,7 +66,7 @@ public class NeighbourServiceTest {
         List<Neighbour> neighbours = service.getNeighbours();
         // recuperation du voisin qu'on souhaite ajouter en favoris
         Neighbour neighbourFavorite = service.getNeighbours().get(0);
-        neighbourFavorite.setFavorite(true);
+        service.addFavorite(neighbourFavorite);
         // recuperation de la liste des voisins Favoris
         List<Neighbour> neighboursFavorite = neighbours.stream().filter(Neighbour::isFavorite).collect(toList());
         // verification que la taille correspond bien a 1;
@@ -79,20 +79,17 @@ public class NeighbourServiceTest {
 
     @Test
     public void removeFavoriteNeighbour (){
-        // recuperation de la liste des voisins
         List<Neighbour> neighbours = service.getNeighbours();
-        // recuperation du voisin qu'on souhaite ajouter en favoris
         Neighbour neighbourFavorite = service.getNeighbours().get(0);
-        neighbourFavorite.setFavorite(true);
+        service.addFavorite(neighbourFavorite);
         // Suppression du voisin des Favoris
-        neighbourFavorite.setFavorite(false);
+        service.removeFavorite(neighbourFavorite);
         // recuperation de la liste des voisins Favoris
         List<Neighbour> neighboursFavorite = neighbours.stream().filter(Neighbour::isFavorite).collect(toList());
         // verification que la taille correspond bien a 0;
         assertEquals(0,neighboursFavorite.size());
 
     }
-
 
 
 

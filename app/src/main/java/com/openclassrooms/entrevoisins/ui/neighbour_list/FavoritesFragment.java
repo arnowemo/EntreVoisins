@@ -16,21 +16,26 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
 
-public class FavoritesFragment extends Fragment implements FavoritesAdapter.NeighbourListener {
+public class FavoritesFragment extends Fragment implements MyNeighbourRecyclerViewAdapter.NeighbourListener {
 
     private NeighbourApiService mApiService;
     private RecyclerView mRecyclerView;
     private List<Neighbour> mNeighbours;
     private List<Neighbour> mNeighboursFav;
+    private Neighbour mNeighbour;
 
 
     /**
@@ -71,7 +76,7 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Neig
         mNeighbours =  mApiService.getNeighbours();
         // filtre les voisins marqué comme "Favoris" pour n'affciher qu'eux
         mNeighboursFav = mNeighbours.stream().filter(Neighbour::isFavorite).collect(toList());
-        mRecyclerView.setAdapter(new FavoritesAdapter(mNeighboursFav, this));
+        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighboursFav, this));
     }
 
 
@@ -86,21 +91,31 @@ public class FavoritesFragment extends Fragment implements FavoritesAdapter.Neig
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
+
     }
+
 
     @Override
     public void onStop() {
         super.onStop();
+        EventBus.getDefault().unregister(this);
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Subscribe
+    public void onDeleteNeighbour(DeleteNeighbourEvent event) {
+        mApiService.deleteNeighbour(event.neighbour);
+        initList();
     }
 
     @Override
     public void neighbourClick(int position) {
         Intent neighbourActivity = new Intent (getActivity(), NeighbourActivity.class);
-
-
         neighbourActivity.putExtra("ObjNeighbour",mNeighboursFav.get(position));
-
-
+        mNeighbour = mNeighboursFav.get(position);
+        neighbourActivity.putExtra("favorite",mNeighbour.isFavorite());
         startActivity(neighbourActivity);
     }
 }

@@ -17,6 +17,7 @@ public class DeleteNeighbourEvent {
      * @param neighbour
      */
     public DeleteNeighbourEvent(Neighbour neighbour) {
+
         this.neighbour = neighbour;
     }
 }

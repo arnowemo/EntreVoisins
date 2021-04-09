@@ -16,18 +16,21 @@ import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.DummyNeighbourGenerator;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import java.util.List;
 
 public class NeighbourActivity extends AppCompatActivity {
-
     private String mNeighbourName;
-    private int mNeighbourId;
-    private int mRealId;
+    //private int mNeighbourId;
+    //private int mRealId;
     private Neighbour mNeighbour;
+    //private Neighbour mNeighbourActual;
     private NeighbourApiService mNeighbourApiService;
-    private List<Neighbour> mNeighbours;
+    //private List<Neighbour> mNeighbours;
+    private boolean mFavorite;
+
 
 
 
@@ -60,6 +63,10 @@ public class NeighbourActivity extends AppCompatActivity {
         // recuperation de l'objet Neighbour
         Intent intent = getIntent();
         mNeighbour = intent.getParcelableExtra("ObjNeighbour");
+        mFavorite = intent.getBooleanExtra("favorite",false);
+
+
+
 
 
         // recuperation des elements du layout
@@ -81,21 +88,17 @@ public class NeighbourActivity extends AppCompatActivity {
         mPhoneNeighbour.setText(NeighbourPhone);
         String NeighbourAboutMe = mNeighbour.getAboutMe();
         mAboutMeNeighbour.setText(NeighbourAboutMe);
-
-        mNeighbourId = (int) mNeighbour.getId();
-        mRealId = mNeighbourId - 1;
-        mNeighbours = mNeighbourApiService.getNeighbours();
-        mNeighbour = mNeighbours.get(mRealId);
-
-
         String NeighbourAvatar = mNeighbour.getAvatarUrl();
+
+
+
 
         Glide.with(this)
                 .load(NeighbourAvatar)
                 .centerCrop()
                 .into(mAvatarNeighbour);
 
-
+        //updateStar(mAddFavoriteNeighbour);
         setupStar();
         favorites();
         backActivity();
@@ -109,20 +112,36 @@ public class NeighbourActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                mNeighbour.favorite = ! mNeighbour.favorite;
+                mFavorite = ! mFavorite;
 
-                if(mNeighbour.isFavorite()){
+                if(mFavorite){
+                    //mNeighbourApiService.addFavorite(mNeighbour);
+                    //mNeighbour = mNeighbours.get((int) mNeighbour.getId() - 1);
+                    // mNeighbour.setFavorite(true);
+                    mNeighbour = DummyNeighbourGenerator.DUMMY_NEIGHBOURS.get((int) mNeighbour.getId() - 1);
+                    mNeighbourApiService.addFavorite(mNeighbour);
 
-                    mNeighbour.setFavorite(true);
+                    //mNeighbour.setFavorite(true);
                     Toast.makeText(getApplicationContext(), mNeighbourName +  " Added to favorites", Toast.LENGTH_SHORT).show();
 
+
                 } else
-                    { mNeighbour.setFavorite(false);
-                        Toast.makeText(getApplicationContext(), mNeighbourName + " Removed from favorites", Toast.LENGTH_SHORT).show();
-                    }
+                {
+                    //mNeighbourApiService.removeFavorite(mNeighbour);
+                    //mNeighbour = mNeighbours.get(mNeighbourId);
+                    //mNeighbour.setFavorite(false);
+                    mNeighbour = DummyNeighbourGenerator.DUMMY_NEIGHBOURS.get((int) mNeighbour.getId() - 1);
+                    mNeighbourApiService.removeFavorite(mNeighbour);
+
+                    //mNeighbour.setFavorite(false);
+                    Toast.makeText(getApplicationContext(), mNeighbourName + " Removed from favorites", Toast.LENGTH_SHORT).show();
+
+                }
 
                 updateStar(mAddFavoriteNeighbour);
+
             }
+
         });
 
     }
@@ -130,7 +149,7 @@ public class NeighbourActivity extends AppCompatActivity {
     // méthode pour changer l'image de du bouton favoris
     private void updateStar(FloatingActionButton addFavoriteNeighbour){
 
-        if (mNeighbour.isFavorite()) {
+        if (mFavorite) {
             addFavoriteNeighbour.setImageResource(R.drawable.ic_star_white_24dp);
         }
         else{
