@@ -89,7 +89,6 @@ public class NeighbourActivity extends AppCompatActivity {
                 .centerCrop()
                 .into(mAvatarNeighbour);
 
-        //updateStar(mAddFavoriteNeighbour);
         setupStar();
         favorites();
         backActivity();
